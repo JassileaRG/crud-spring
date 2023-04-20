@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,32 +22,38 @@ public class PersonServiceImpl implements PersonService {
     private final PersonMapper personMapper;
     @Override
     public PersonResponseDTO findById(Long id) {
-        Person person = returnPerson(id);
-        return personMapper.toPersonDTO(person);
+        return personMapper.toPersonDTO(returnPerson(id));
     }
 
     @Override
     public List<PersonResponseDTO> findAll() {
-        return null;
+        return personMapper.toPeopleDTO(personRepository.findAll());
     }
 
     @Override
     public PersonResponseDTO register(PersonRequestDTO personDTO) {
-        return null;
+        Person person = personMapper.toPerson(personDTO);
+
+        return personMapper.toPersonDTO(personRepository.save(person));
     }
 
     @Override
-    public PersonResponseDTO update(PersonRequestDTO personDTO, Long id) {
+    public PersonResponseDTO update(Long id, PersonRequestDTO personDTO) {
         Person person = returnPerson(id);
 
+        personMapper.updatePersonData(person, personDTO);
+
+        return personMapper.toPersonDTO(personRepository.save(person));
     }
 
     @Override
     public String delete(Long id) {
-        return null;
+        personRepository.deleteById(id);
+        return "Person id " + id + "deleted.";
     }
 
     private Person returnPerson(Long id) {
-        personRepository.findById(id).orElseThrow(() -> new RuntimeException("Person wasn't found  in the database"));
+        personRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Person wasn't found  in the database"));
     }
 }

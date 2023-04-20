@@ -1,7 +1,9 @@
 package com.projeto.people.dto.response;
 
 import com.projeto.people.entity.Person;
+import lombok.Getter;
 
+@Getter
 public class PersonResponseDTO {
     private Long id;
 
