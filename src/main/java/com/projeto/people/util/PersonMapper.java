@@ -3,10 +3,12 @@ package com.projeto.people.util;
 import com.projeto.people.dto.request.PersonRequestDTO;
 import com.projeto.people.dto.response.PersonResponseDTO;
 import com.projeto.people.entity.Person;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class PersonMapper {
     public Person toPerson(PersonRequestDTO personDTO) {
 

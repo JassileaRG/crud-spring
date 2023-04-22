@@ -20,6 +20,7 @@ public class PersonServiceImpl implements PersonService {
     private final PersonRepository personRepository;
 
     private final PersonMapper personMapper;
+
     @Override
     public PersonResponseDTO findById(Long id) {
         return personMapper.toPersonDTO(returnPerson(id));
@@ -32,6 +33,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public PersonResponseDTO register(PersonRequestDTO personDTO) {
+
         Person person = personMapper.toPerson(personDTO);
 
         return personMapper.toPersonDTO(personRepository.save(person));
@@ -39,6 +41,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public PersonResponseDTO update(Long id, PersonRequestDTO personDTO) {
+
         Person person = returnPerson(id);
 
         personMapper.updatePersonData(person, personDTO);
@@ -53,7 +56,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     private Person returnPerson(Long id) {
-        personRepository.findById(id)
+        return personRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Person wasn't found  in the database"));
     }
 }
